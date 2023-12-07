@@ -11,6 +11,7 @@
     .dataDetailContainer {
         margin-top: 30px;
         line-height: 12px;
+        letter-spacing: 2px;
 
         .countryName {
             font-size: 45px;
@@ -24,51 +25,26 @@
         }
 
         .monthName {
-            font-size: 25px;
-        }
-
-        .temp {
             font-size: 35px;
         }
     }
 
     .weatherDetailContainer {
         font-size: 18px;
-        line-height: 12px;
+        line-height: 15px;
+        margin-top: 20px;
 
         .weatherDetail {
             display: flex;
             justify-content: space-between;
-        }
-
-        .sunIconBlockContainer {
-            display: flex;
-            gap: 20px;
-    
-            .sunIconContainer {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-                .sunIconImgContainer {
-                    width: 50px;
-                    height: 50px;
-            
-                    img {
-                        width: 100%;
-                        height: 100%;
-                    }
-                }
-            }
         }
     }
     
     .weatherIconContainer {
         width: 150px;
         height: 150px;
-        margin-top: 90px;
-        left: 180px;
+        margin-top: 70px;
+        left: 220px;
         position: absolute;
 
         img {

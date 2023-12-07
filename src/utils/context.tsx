@@ -112,15 +112,11 @@ export const WeatherContextWrapper = ({children}: { children: React.ReactNode })
             const dayName = dayNames[date.getDay()]
             const monthName = monthNames[date.getMonth()]
             const dayOfMonth = date.getDate()
-            const hours = String(date.getHours()).padStart(2, '0')
-            const minutes = String(date.getMinutes()).padStart(2, '0')
     
             return {
                 dayName,
                 monthName,
                 dayOfMonth,
-                hours,
-                minutes,
             }
 
         } else {

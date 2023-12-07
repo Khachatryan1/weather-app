@@ -60,18 +60,16 @@ export type CountryNameType = {
 }
 
 export type DateTimeObject = {
-    dayName: string;
-    monthName: string;
-    dayOfMonth: number;
-    hours: string;
-    minutes: string;
+    dayName: string
+    monthName: string
+    dayOfMonth: number
 }
 
 export type WeatherIcons = {
-    [key: string]: string;
+    [key: string]: string
 }
 
 export type LocationType = {
-    latitude: number | undefined,
+    latitude: number | undefined
     longitude: number | undefined
 }

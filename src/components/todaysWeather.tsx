@@ -15,8 +15,6 @@ export const TodaysWeather = () => {
     const {todaysWeather, countryName, unit, getDateTimeInfo} = useContext(WeatherContext)
 
     const date = getDateTimeInfo(todaysWeather?.dt)
-    const sunriseDate = getDateTimeInfo(todaysWeather?.sys.sunrise)
-    const sunsetDate = getDateTimeInfo(todaysWeather?.sys.sunset)
     const weatherCode = todaysWeather?.weather[0].icon as string
     
     const weatherIcons: WeatherIcons = {
@@ -44,10 +42,10 @@ export const TodaysWeather = () => {
         <div className={styles.container}>
             <div className={styles.dataDetailContainer}>
                 <p className={styles.countryName}>{countryName?.[0].name.common}, {todaysWeather?.name}</p>
-                <p className={styles.dayName}>{date?.dayName} | {date?.hours} : {date?.minutes}</p>
                 <p className={styles.monthName}>{date?.monthName} {date?.dayOfMonth}</p>
-                <p className={styles.temp}>{todaysWeather?.main.temp} {unit === 'metric' ? '°C' : '°F'}</p>
-                <p className={styles.monthName}>{todaysWeather?.weather[0].description}</p>
+                <p className={styles.dayName}>{date?.dayName}</p>
+                <p className={styles.monthName}>{todaysWeather?.main.temp} {unit === 'metric' ? '°C' : '°F'}</p>
+                <p className={styles.dayName}>{todaysWeather?.weather[0].description}</p>
             </div>
             <div className={styles.weatherIconContainer}>
                 <img src={weatherIcons[weatherCode]} alt="weather icon" />
@@ -58,20 +56,6 @@ export const TodaysWeather = () => {
                 <p className={styles.weatherDetail}><span>Wind</span> <span>{todaysWeather?.wind.speed}m/s</span></p>
                 <p className={styles.weatherDetail}><span>Humidity</span> <span>{todaysWeather?.main.humidity}%</span></p>
                 <p className={styles.weatherDetail}><span>Pressure</span> <span>{todaysWeather?.main.pressure}hPa</span></p>
-                <div className={styles.sunIconBlockContainer}>
-                    <div className={styles.sunIconContainer}>
-                        <p>{sunriseDate?.hours} : {sunriseDate?.minutes}</p>
-                        <div className={styles.sunIconImgContainer}>
-                            <img src={sunrise} alt="sunrise icon" />
-                        </div>
-                    </div>
-                    <div className={styles.sunIconContainer}>
-                        <p>{sunsetDate?.hours}:{sunsetDate?.minutes}</p>
-                        <div className={styles.sunIconImgContainer}>
-                            <img src={sunset} alt="sunset icon" />
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     )
