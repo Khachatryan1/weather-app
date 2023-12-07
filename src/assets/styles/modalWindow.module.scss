@@ -1,0 +1,42 @@
+.container {
+    background-color: rgb(2, 11, 21);
+    color: white;
+    width: 600px;
+    height: 300px;
+    margin: 100px auto;
+    padding: 5px;
+    border-radius: 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    
+    .title {
+        text-align: center;
+        font-size: 40px;
+    }
+
+    .buttonContainer {
+        display: flex;
+        gap: 40px;
+
+        button {
+            width: 260px;
+            height: 45px;
+            border-radius: 8px;
+            outline: none;
+            border: none;
+            font-size: 25px;
+            letter-spacing: 4px;
+            font-weight: 600;
+            background-color: white;
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(199, 208, 211, 0.61);
+                box-shadow: rgba(199, 208, 211, 0.61) 10px -1px 20px;
+            }
+        }
+    }
+}

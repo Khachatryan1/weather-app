@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useContext, useEffect } from "react"
+import { Search } from "./components/search"
+import { WeatherContext } from "./utils/context"
+import { TodaysWeather } from "./components/todaysWeather"
+import { ModalWindow } from "./components/modalWindow"
+import { Forecast } from "./components/forecast"
+import { BarChart } from "./components/barChart"
+import styles from "./assets/styles/app.module.scss"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const { showModal, getTodaysWeather, 
+            getFiveDayWeatherForecast, getWeatherByCoordinates, 
+            location, setUnit } = useContext(WeatherContext)
+
+    useEffect(() => {
+        const storedCityName = localStorage.getItem("cityName")
+        const storedUnit = localStorage.getItem("unit")
+        
+        if (location?.latitude !== undefined && location?.longitude !== undefined) {
+            setUnit('metric')
+            getWeatherByCoordinates(location, 'metric')
+            getFiveDayWeatherForecast(storedCityName as string, 'metric')
+        } else if (storedCityName && storedUnit) {
+            setUnit(storedUnit)
+            getTodaysWeather(storedCityName, storedUnit)
+            getFiveDayWeatherForecast(storedCityName, storedUnit)
+        } else {
+            setUnit('metric')
+            getTodaysWeather('Tokyo', 'metric')
+            getFiveDayWeatherForecast('Tokyo', 'metric')
+        }
+    }, [location])
+
+    return (
+        <>
+            {
+                showModal ? <ModalWindow/> : 
+                <div className={styles.wrapper}>
+                    <Search/>
+                    <TodaysWeather/>
+                    <Forecast/>
+                    <BarChart/>
+                </div>
+            }
+        </>
+    );
 }
 
 export default App;
