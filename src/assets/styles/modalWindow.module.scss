@@ -1,10 +1,10 @@
 .container {
     background-color: rgb(2, 11, 21);
     color: white;
-    width: 600px;
-    height: 300px;
+    max-width: 545px;
+    width: 35%;
     margin: 100px auto;
-    padding: 5px;
+    padding: 15px;
     border-radius: 45px;
     display: flex;
     flex-direction: column;
@@ -19,10 +19,12 @@
     .buttonContainer {
         display: flex;
         gap: 40px;
+        width: 80%;
+        padding: 5px;
 
         button {
-            width: 260px;
-            height: 45px;
+            width: 50%;
+            height: 40px;
             border-radius: 8px;
             outline: none;
             border: none;
@@ -38,5 +40,18 @@
                 box-shadow: rgba(199, 208, 211, 0.61) 10px -1px 20px;
             }
         }
+    }
+}
+
+@media (max-width: 1093px) {
+    .container {
+        width: 100vw;
+    }
+}
+
+@media (max-width: 550px) {
+    .container {
+        width: 100vw;
+        border-radius: 0;
     }
 }

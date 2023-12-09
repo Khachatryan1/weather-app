@@ -7,7 +7,7 @@ import styles from "../assets/styles/search.module.scss"
 export const Search = () => {
     const { cityName, setCityName, 
             setUnit, getFiveDayWeatherForecast,
-            getTodaysWeather } = useContext(WeatherContext)
+            getTodaysWeather, errorMassage, setErrorMassage} = useContext(WeatherContext)
 
     const [isButtonClickable, setIsButtonClickable] = useState(false)
     
@@ -27,12 +27,14 @@ export const Search = () => {
         getTodaysWeather(cityName, unit)
         getFiveDayWeatherForecast(cityName, unit)
         setCityName('')
+        setErrorMassage('')
     }
 
 
     const toggle = () => {
         const storedCityName = localStorage.getItem("cityName")
         const storedUnit = localStorage.getItem("unit")
+        setErrorMassage('')
 
         let reverseUnit = storedUnit === 'metric' ? 'imperial' : 'metric'
         setUnit(reverseUnit)
@@ -44,6 +46,7 @@ export const Search = () => {
     }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setErrorMassage('')
         setCityName(event.target.value);
     }
 
@@ -56,6 +59,9 @@ export const Search = () => {
  
     return (
         <div className={styles.container}>
+            {
+                errorMassage ? <p className={styles.error}>{errorMassage}</p> : null 
+            }
             <input className={styles.input} 
                 type="text" value={cityName} 
                 onChange={handleInputChange}
@@ -67,6 +73,7 @@ export const Search = () => {
                 <button onClick={toggle}><FaArrowRightArrowLeft className={styles.toggle}/></button>
                 <button disabled={!isButtonClickable} onClick={() => getData(fahrenheit)}><FaSearch /> °F</button>
             </div>
+            
         </div>
     )
 }

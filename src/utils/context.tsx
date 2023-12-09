@@ -1,6 +1,13 @@
 import { createContext, useState } from "react"
-import { ContextType, CountryNameType, DateTimeObject, LocationType, TodaysWeatherType } from "./types"
+import { ContextType, CountryNameType, DateTimeObject, LocationType, TodaysWeatherType, WeatherIcons } from "./types"
 import axios from "axios"
+import clear from "../assets/images/clear.png"
+import cloudy from "../assets/images/cloudy.png"
+import rain from "../assets/images/rain.png"
+import snow from "../assets/images/snow.png"
+import fog from "../assets/images/fog.png"
+import thunder from "../assets/images/thunder.png"
+import { format, parseISO } from "date-fns"
 
 
 export const WeatherContext = createContext<ContextType>({
@@ -21,8 +28,10 @@ export const WeatherContext = createContext<ContextType>({
     getWeatherByCoordinates: () => {},
     fiveDayForecast: [],
     setFiveDayForecast: () => {},
-    getFiveDayWeatherForecast: () => {}
-
+    getFiveDayWeatherForecast: () => {},
+    setIcon:  (iconCode: string) => iconCode,
+    errorMassage: '',
+    setErrorMassage: () => {}
 })
 
 
@@ -35,6 +44,7 @@ export const WeatherContextWrapper = ({children}: { children: React.ReactNode })
     const [coordinates, setCoordinates] = useState<LocationType | null>(null)
     const [showModal, setShowModal] = useState(true)
     const [fiveDayForecast, setFiveDayForecast] = useState<TodaysWeatherType[] | null>(null)
+    const [errorMassage, setErrorMassage] = useState('')
 
     const apiKey = "af59f415af5e5ff677e3c9a94264db8b"
 
@@ -62,7 +72,7 @@ export const WeatherContextWrapper = ({children}: { children: React.ReactNode })
 
     const getWeatherByCoordinates = (coordinates: LocationType, indicator: string) => {
         const { latitude, longitude } = coordinates
-
+        
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${indicator}`
     
         axios.get(apiUrl)
@@ -89,42 +99,51 @@ export const WeatherContextWrapper = ({children}: { children: React.ReactNode })
             .then(response => {
                 setFiveDayForecast(response.data.list);
             })
-            .catch(err => console.log(err))  
+            .catch(() => setErrorMassage('invalid name'))  
     }
     
 
      
     const getDateTimeInfo = (timestamp: number | undefined): DateTimeObject | null => {
-        if (typeof timestamp === 'number') {
-            const date = new Date(timestamp * 1000)
-    
-            const monthNames = [
-                "January", "February", "March", "April",
-                "May", "June", "July", "August",
-                "September", "October", "November", "December"
-            ]
-            
-            const dayNames = [
-                "Sunday", "Monday", "Tuesday", "Wednesday",
-                "Thursday", "Friday", "Saturday"
-            ]
-
-            const dayName = dayNames[date.getDay()]
-            const monthName = monthNames[date.getMonth()]
-            const dayOfMonth = date.getDate()
-    
-            return {
-                dayName,
-                monthName,
-                dayOfMonth,
-            }
-
-        } else {
+        if (typeof timestamp !== 'number') {
             return null
+        }
+    
+        const date = parseISO(new Date(timestamp * 1000).toISOString())
+    
+        return {
+            dayName: format(date, 'EEEE'),
+            monthName: format(date, 'MMMM'),
+            dayOfMonth: date.getDate(),
         }
     }
 
- 
+    const setIcon = (iconCode: string) => {
+        const weatherIcons: WeatherIcons = {
+            "01n": clear,
+            "02n": cloudy,
+            "03n": cloudy,
+            "04n": cloudy,
+            "09n": rain,
+            "10n": thunder,
+            "11n": thunder,
+            "13n": snow,
+            "50n": fog,
+            "01d": clear,
+            "02d": cloudy,
+            "03d": cloudy,
+            "04d": cloudy,
+            "09d": rain,
+            "10d": thunder,
+            "11d": thunder,
+            "13d": snow,
+            "50d": fog,
+        }
+
+        return weatherIcons[iconCode]
+    }
+    
+
     
     const contextValue: ContextType = {
         cityName,
@@ -144,7 +163,10 @@ export const WeatherContextWrapper = ({children}: { children: React.ReactNode })
         getWeatherByCoordinates,
         fiveDayForecast,
         setFiveDayForecast,
-        getFiveDayWeatherForecast
+        getFiveDayWeatherForecast,
+        setIcon,
+        errorMassage, 
+        setErrorMassage
     }
 
     return (

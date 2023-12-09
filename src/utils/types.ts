@@ -17,6 +17,9 @@ export type ContextType = {
     fiveDayForecast: TodaysWeatherType[] | null
     setFiveDayForecast: React.Dispatch<React.SetStateAction<TodaysWeatherType[] | null>>
     getFiveDayWeatherForecast: (cityName: string, indicator: string) => void
+    setIcon: (iconCode: string) => string
+    errorMassage: string
+    setErrorMassage: React.Dispatch<React.SetStateAction<string>>
 }
 
 export type TodaysWeatherType = {

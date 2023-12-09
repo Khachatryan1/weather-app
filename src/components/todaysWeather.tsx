@@ -1,42 +1,13 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { WeatherContext } from "../utils/context"
-import { WeatherIcons } from "../utils/types"
-import sunrise from "../assets/images/sunrise.png"
-import sunset from "../assets/images/sunset.png"
-import clear from "../assets/images/clear.png"
-import cloudy from "../assets/images/cloudy.png"
-import rain from "../assets/images/rain.png"
-import snow from "../assets/images/snow.png"
-import fog from "../assets/images/fog.png"
-import thunder from "../assets/images/thunder.png"
 import styles from "../assets/styles/todaysWeater.module.scss"
 
 export const TodaysWeather = () => {
-    const {todaysWeather, countryName, unit, getDateTimeInfo} = useContext(WeatherContext)
+    const {todaysWeather, countryName, setIcon, unit, getDateTimeInfo} = useContext(WeatherContext)
 
     const date = getDateTimeInfo(todaysWeather?.dt)
     const weatherCode = todaysWeather?.weather[0].icon as string
-    
-    const weatherIcons: WeatherIcons = {
-        "01n": clear,
-        "02n": cloudy,
-        "03n": cloudy,
-        "04n": cloudy,
-        "09n": rain,
-        "10n": thunder,
-        "11n": thunder,
-        "13n": snow,
-        "50n": fog,
-        "01d": clear,
-        "02d": cloudy,
-        "03d": cloudy,
-        "04d": cloudy,
-        "09d": rain,
-        "10d": thunder,
-        "11d": thunder,
-        "13d": snow,
-        "50d": fog,
-    }
+
 
     return (
         <div className={styles.container}>
@@ -48,7 +19,7 @@ export const TodaysWeather = () => {
                 <p className={styles.dayName}>{todaysWeather?.weather[0].description}</p>
             </div>
             <div className={styles.weatherIconContainer}>
-                <img src={weatherIcons[weatherCode]} alt="weather icon" />
+                <img src={setIcon(weatherCode)} alt="weather icon" />
             </div>
             
             <div className={styles.weatherDetailContainer}>
